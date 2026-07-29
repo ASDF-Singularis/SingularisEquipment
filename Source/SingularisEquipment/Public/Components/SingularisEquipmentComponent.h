@@ -7,6 +7,14 @@
 
 class UArrowComponent;
 
+#pragma region 委托签名
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentEquippedSignature, AActor*, Equipment);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquipmentDeprivedSignature);
+
+#pragma endregion
+
 UCLASS(
 	Blueprintable,
 	BlueprintType,
@@ -27,6 +35,24 @@ public:
 		meta = (DisplayName = "箭头组件引用", UseComponentPicker, AllowedClasses = "/Script/Engine.ArrowComponent")
 	)
 	FComponentReference ComponentReference{};
+
+#pragma endregion
+
+#pragma region 事件分发器
+
+	UPROPERTY(
+		BlueprintAssignable,
+		Category = "SingularisEquipment|引力奇点装备|事件分发器",
+		meta = (DisplayName = "装备时")
+	)
+	FOnEquipmentEquippedSignature OnEquipmentEquipped{};
+
+	UPROPERTY(
+		BlueprintAssignable,
+		Category = "SingularisEquipment|引力奇点装备|事件分发器",
+		meta = (DisplayName = "卸下时")
+	)
+	FOnEquipmentDeprivedSignature OnEquipmentDeprived{};
 
 #pragma endregion
 

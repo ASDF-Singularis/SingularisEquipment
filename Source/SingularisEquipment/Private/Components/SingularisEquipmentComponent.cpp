@@ -119,6 +119,9 @@ void USingularisEquipmentComponent::ApplyEquipment(AActor* OldEquipment) const
 			// 无箭头组件时回退到附加至角色根组件
 			EquipmentActor->AttachToComponent(OwnerCharacter->GetRootComponent(), AttachmentRules);
 		}
+
+		// 5) 广播装备事件
+		OnEquipmentEquipped.Broadcast(EquipmentActor.Get());
 	}
 	else
 	{
@@ -140,5 +143,8 @@ void USingularisEquipmentComponent::ApplyEquipment(AActor* OldEquipment) const
 		// 4) 分离
 		const FDetachmentTransformRules DetachRules(EDetachmentRule::KeepWorld, true);
 		OldEquipment->DetachFromActor(DetachRules);
+
+		// 5) 广播卸下事件
+		OnEquipmentDeprived.Broadcast();
 	}
 }
