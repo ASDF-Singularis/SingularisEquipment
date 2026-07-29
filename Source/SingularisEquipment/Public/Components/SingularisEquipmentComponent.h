@@ -35,7 +35,9 @@ private:
 
 	TWeakObjectPtr<ACharacter> OwnerCharacter = nullptr;
 	TWeakObjectPtr<UArrowComponent> CachedArrowComponent = nullptr;
-	TWeakObjectPtr<AActor> EquipActor = nullptr;
+
+	UPROPERTY(ReplicatedUsing = OnRep_EquipmentActor)
+	TWeakObjectPtr<AActor> EquipmentActor = nullptr;
 
 #pragma endregion
 
@@ -54,6 +56,7 @@ public:
 		ELevelTick TickType,
 		FActorComponentTickFunction* ThisTickFunction
 	) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 #pragma endregion
 
@@ -65,7 +68,7 @@ public:
 		Category = "SingularisInventory|引力奇点装备|State",
 		meta = (DisplayName = "Equipped")
 	)
-	bool Equipped() const { return EquipActor.IsValid(); }
+	bool Equipped() const { return EquipmentActor.IsValid(); }
 
 	UFUNCTION(
 		BlueprintPure,
@@ -73,7 +76,7 @@ public:
 		Category = "SingularisInventory|引力奇点装备|State",
 		meta = (DisplayName = "GetEquip")
 	)
-	AActor* GetEquip() const { return EquipActor.Get(); }
+	AActor* GetEquip() const { return EquipmentActor.Get(); }
 
 #pragma endregion
 
@@ -98,11 +101,17 @@ public:
 #pragma endregion
 
 private:
+#pragma region Response
+
+	UFUNCTION()
+	void OnRep_EquipmentActor(TWeakObjectPtr<AActor> OldEquipment) const;
+
+#pragma endregion
+
 #pragma region Internal Function
 
 	void SetEquipment(AActor* Actor);
-	void ApplyEquipment() const;
-	void DepriveEquipment(AActor* Actor) const;
+	void ApplyEquipment(AActor* OldEquipment) const;
 
 #pragma endregion
 };
