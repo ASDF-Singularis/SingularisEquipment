@@ -11,7 +11,7 @@ class UArrowComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentEquippedSignature, AActor*, Equipment);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEquipmentDeprivedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentDeprivedSignature, AActor*, OldEquipment);
 
 #pragma endregion
 
@@ -91,7 +91,7 @@ public:
 	UFUNCTION(
 		BlueprintPure,
 		BlueprintCallable,
-		Category = "SingularisInventory|引力奇点装备|State",
+		Category = "SingularisEquipment|引力奇点装备|State",
 		meta = (DisplayName = "Equipped")
 	)
 	bool Equipped() const { return EquipmentActor.IsValid(); }
@@ -99,7 +99,7 @@ public:
 	UFUNCTION(
 		BlueprintPure,
 		BlueprintCallable,
-		Category = "SingularisInventory|引力奇点装备|State",
+		Category = "SingularisEquipment|引力奇点装备|State",
 		meta = (DisplayName = "GetEquip")
 	)
 	AActor* GetEquip() const { return EquipmentActor.Get(); }

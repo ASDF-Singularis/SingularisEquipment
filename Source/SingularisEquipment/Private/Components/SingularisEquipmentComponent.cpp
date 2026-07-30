@@ -145,6 +145,6 @@ void USingularisEquipmentComponent::ApplyEquipment(AActor* OldEquipment) const
 		OldEquipment->DetachFromActor(DetachRules);
 
 		// 5) 广播卸下事件
-		OnEquipmentDeprived.Broadcast();
+		OnEquipmentDeprived.Broadcast(OldEquipment);
 	}
 }
